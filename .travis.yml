@@ -17,10 +17,15 @@ before_script:
 - psql -c "CREATE USER learndjango WITH PASSWORD 'testingpassword';" -U postgres
 - psql -c "ALTER USER learndjango CREATEDB;" -U postgres
 
-script:
-- "./manage.py test"
+jobs:
+  include:
+    - stage: test
+      script:
+      - "TRAVIS_TESTING=1"
+      - "./manage.py test"
 
-deploy:
-  provider: gae
-  keyfile: 'service_account_secrets.json'
-  project: learndjango-197901
+    - stage: deploy
+      deploy:
+        provider: gae
+        keyfile: 'service_account_secrets.json'
+        project: learndjango-197901
