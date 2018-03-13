@@ -22,5 +22,5 @@ script:
 
 deploy:
   provider: gae
-  keyfile: 'service_account_secrets.json.enc'
+  keyfile: 'service_account_secrets.json'
   project: learndjango-197901
