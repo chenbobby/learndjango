@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import Question
+from .models import Question, Thing
 
 def create_question(question_text, days):
     """
@@ -67,3 +67,20 @@ class QuestionModelTests(TestCase):
         future_question = Question(published_at=time)
         self.assertIs(future_question.was_published_recently(), False)
 
+class ThingModelTests(TestCase):
+    def test_make_a_thing(self):
+        """
+        Correctly saves and retrieves a Thing instance
+        """
+        t = Thing(content="Hello World")
+        t.save()
+        q = Thing.objects.all()
+        self.assertQuerysetEqual(q, ['<Thing: Hello World>'])
+    
+    def test_make_thing_through_question(self):
+        response = self.client.post(reverse('polls:new_question'), {'question_text': 'A Thing Question'})
+
+        self.assertEqual(response.status_code, 302)
+
+        q = Thing.objects.all()
+        self.assertQuerysetEqual(q, ['<Thing: A Thing Question>'])

@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from .models import Question, Choice
+from .models import Question, Choice, Thing
 
 
 
@@ -53,4 +53,6 @@ def new_question(request):
 
     question = Question(question_text=request.POST['question_text'])
     question.save()
+    thing = Thing(content=question.question_text)
+    thing.save()
     return HttpResponseRedirect(reverse('polls:detail', args=(question.id,)))
