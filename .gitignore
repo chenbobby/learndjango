@@ -1,0 +1,8 @@
+# Python Bytecode Cache
+*.pyc
+
+# Cloud SQL Proxy Executable
+cloud_sql_proxy
+
+# Aggregated Directory for Static Files (still considers app-specific /static/)
+/static/

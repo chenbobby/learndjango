@@ -25,10 +25,7 @@ SECRET_KEY = 'to=@cadc^6fcur*+gjn#99-!6qj+4)dn$g42x2rl5d(k%p7rb@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'localhost',
-    'testserver',
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -79,7 +76,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'learndjango-prod',
         'USER': 'learndjango',
         'PASSWORD': 'secretpassword',
@@ -87,11 +84,11 @@ DATABASES = {
     },
 }
 
-DATABASES['default']['HOST'] = '/cloudsql/learndjango-197901:us-east1:learndjango-pg'
 if os.getenv('GAE_INSTANCE'):
-    pass
+    DATABASES['default']['HOST'] = '/cloudsql/learndjango-197901:us-east1:learndjango-pg'
 else:
-    DATABASES['default']['HOST'] = '127.0.0.1'
+    # cloud_sql_proxy needs to be running on 'localhost:5432'
+    DATABASES['default']['HOST'] = 'localhost'
 
 
 # Password validation
@@ -130,4 +127,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'https://storage.googleapis.com/learndjango-bucket/static/'
+STATIC_ROOT = 'static/'
