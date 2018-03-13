@@ -1,0 +1,22 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+
+{% if latest_questions %}
+    <ul>
+        {% for question in latest_questions %}
+            <li>
+                <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No recent polls.</p>
+{% endif %}
+
+<form action="{% url 'polls:new_question' %}" method='POST'>
+    {% csrf_token %}
+    <input type="text" name="question_text" id="question_text" />
+    <label for="question_text">Question Text</label>
+    <br/>
+    <input type="submit" value="Save" />
+</form>
