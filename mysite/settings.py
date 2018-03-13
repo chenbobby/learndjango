@@ -77,7 +77,6 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'learndjango-prod',
         'USER': 'learndjango',
         'PASSWORD': 'secretpassword',
         'PORT': '5432',
@@ -85,17 +84,18 @@ DATABASES = {
 }
 
 
+# Configure database settings depending on environment variable DEPLOYMENT
 deployment = os.getenv('DEPLOYMENT')
-if os.getenv('GAE_INSTANCE'):
+if deployment == 'PRODUCTION':
     DATABASES['default']['HOST'] = '/cloudsql/learndjango-197901:us-east1:learndjango-pg'
+    DATABASES['default']['NAME'] = 'learndjango-prod'
 elif deployment == 'TESTING':
     DATABASES['default']['HOST'] = '127.0.0.1'
-    DATABASES['default']['NAME'] = 'learndjango_test'
-    DATABASES['default']['USER'] = 'learndjango'
-    DATABASES['default']['PASSWORD'] = 'testingpassword'
+    DATABASES['default']['NAME'] = 'learndjango-test'
 elif deployment == 'DEVELOPMENT':
     # cloud_sql_proxy needs to be running on 'localhost:5432'
     DATABASES['default']['HOST'] = '127.0.0.1'
+    DATABASES['default']['NAME'] = 'learndjango-dev'
 else:
     raise Exception('Environment variable DEPLOYMENT is invalid.\nTry running `export DEPLOYMENT="DEVELOPMENT"`')
 
