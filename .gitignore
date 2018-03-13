@@ -4,5 +4,8 @@
 # Cloud SQL Proxy Executable
 cloud_sql_proxy
 
-# Aggregated Directory for Static Files (still considers app-specific /static/)
+# Aggregated Directory for Static Files (still includes app-specific /static/)
 /static/
+
+# Secret Keys and Stuff
+*_secrets.json
