@@ -85,16 +85,19 @@ DATABASES = {
 }
 
 
+deployment = os.getenv('DEPLOYMENT')
 if os.getenv('GAE_INSTANCE'):
     DATABASES['default']['HOST'] = '/cloudsql/learndjango-197901:us-east1:learndjango-pg'
-else:
-    # cloud_sql_proxy needs to be running on 'localhost:5432'
-    DATABASES['default']['HOST'] = 'localhost'
-
-if os.getenv('TRAVIS_TESTING'):
+elif deployment == 'TESTING':
+    DATABASES['default']['HOST'] = '127.0.0.1'
     DATABASES['default']['NAME'] = 'learndjango_test'
     DATABASES['default']['USER'] = 'learndjango'
     DATABASES['default']['PASSWORD'] = 'testingpassword'
+elif deployment == 'DEVELOPMENT':
+    # cloud_sql_proxy needs to be running on 'localhost:5432'
+    DATABASES['default']['HOST'] = '127.0.0.1'
+else:
+    raise Exception('Environment variable DEPLOYMENT is invalid.\nTry running `export DEPLOYMENT="DEVELOPMENT"`')
 
 
 # Password validation

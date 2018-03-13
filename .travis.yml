@@ -20,11 +20,14 @@ before_script:
 jobs:
   include:
     - stage: test
+      env:
+        - DEPLOYMENT="TESTING"
       script:
-      - "TRAVIS_TESTING=1"
-      - "./manage.py test"
+        - "./manage.py test"
 
     - stage: deploy
+    env:
+        - DEPLOY="production"
       deploy:
         provider: gae
         keyfile: 'service_account_secrets.json'
