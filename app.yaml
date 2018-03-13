@@ -11,5 +11,5 @@ beta_settings:
 env_variables:
   DEPLOYMENT: "PRODUCTION"
 
-script:
+scripts:
   - ./manage.py migrate
