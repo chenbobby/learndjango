@@ -16,7 +16,7 @@
 <form action="{% url 'polls:new_question' %}" method='POST'>
     {% csrf_token %}
     <input type="text" name="question_text" id="question_text" />
-    <label for="question_text">Question Text</label>
+    <label for="question_text">Question Wording</label>
     <br/>
     <input type="submit" value="Save" />
 </form>
