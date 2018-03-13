@@ -80,13 +80,18 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'chenbobby',
+        'NAME': 'learndjango-prod',
         'USER': 'learndjango',
         'PASSWORD': 'secretpassword',
-        'HOST': 'localhost',
         'PORT': '5432',
     },
 }
+
+DATABASES['default']['HOST'] = '/cloudsql/learndjango-197901:us-east1:learndjango-pg'
+if os.getenv('GAE_INSTANCE'):
+    pass
+else:
+    DATABASES['default']['HOST'] = '127.0.0.1'
 
 
 # Password validation
