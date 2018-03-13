@@ -2,20 +2,20 @@ language: python
 python:
 - '3.5'
 
-install:
-- pip install -r requirements.txt
 
 jobs:
   include:
     - stage: test
       env:
         - DEPLOYMENT="TESTING"
+      services:
+        - postgres
+      install:
+        - pip install -r requirements.txt
       before_script:
-        - wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-        - chmod +x cloud_sql_proxy
-        - ./cloud_sql_proxy -instances="learndjango-197901:us-east1:learndjango-pg"=tcp:5432 &
+        - psql -c "CREATE USER learndjango WITH PASSWORD 'secretpassword';" -U postgres
+        - psql -c "ALTER USER learndjango CREATEDB;" -U postgres
       script:
-        - ./manage.py migrate
         - ./manage.py test
       # If testing succeeds, we deploy to Google App Engine
       before_deploy:
