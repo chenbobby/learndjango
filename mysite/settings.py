@@ -84,11 +84,17 @@ DATABASES = {
     },
 }
 
+
 if os.getenv('GAE_INSTANCE'):
     DATABASES['default']['HOST'] = '/cloudsql/learndjango-197901:us-east1:learndjango-pg'
 else:
     # cloud_sql_proxy needs to be running on 'localhost:5432'
     DATABASES['default']['HOST'] = 'localhost'
+
+if os.getenv('TRAVIS_TESTING'):
+    DATABASES['default']['NAME'] = 'learndjango_test'
+    DATABASES['default']['USER'] = 'learndjango'
+    DATABASES['default']['PASSWORD'] = 'testingpassword'
 
 
 # Password validation
