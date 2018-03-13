@@ -26,8 +26,8 @@ jobs:
         - "./manage.py test"
 
     - stage: deploy
-    env:
-        - DEPLOY="production"
+      env:
+          - DEPLOY="production"
       deploy:
         provider: gae
         keyfile: 'service_account_secrets.json'
