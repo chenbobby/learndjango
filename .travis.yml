@@ -11,6 +11,7 @@ install:
 before_script:
   - psql -c "CREATE DATABASE learndjango_test;" -U postgres
   - psql -c "CREATE USER learndjango WITH PASSWORD 'testingpassword';" -U postgres
+  - psql -c "ALTER USER learndjango CREATEDB;" -U postgres
 
 
 script:
